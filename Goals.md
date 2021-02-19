@@ -17,7 +17,7 @@ sum(1, 3) // => 4
 ```
 
 ## Possible solutions for storing functions outside:
-- Firebase RTDB;
+- [Firebase RTDB](src/store/RTDB/RTDB.ts);
 - Firebase Firestore;
 
 
