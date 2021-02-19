@@ -1,6 +1,8 @@
+import { IFunctionProtocol, IUndefinedFunction } from '../InterfacesProtocol'
+
 export interface IStoreProtocol {
-  create(): Promise<any>
-  read(): Promise<any>
+  create<K extends Function = IUndefinedFunction>(data: IFunctionProtocol<K>): Promise<IFunctionProtocol<K>>
+  read<K extends Function = IUndefinedFunction>(id: string | number): Promise<IFunctionProtocol<K> | null>
   update(): Promise<any>
   remove(): Promise<any>
   onCreate(): void
