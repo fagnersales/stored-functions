@@ -25,7 +25,16 @@ export class RTDB implements IStoreProtocol {
     }
   }
 
-  async update () {}
+  async update<K extends Function = IUndefinedFunction> (id: number, newFunction: K): Promise<IFunctionProtocol<K> | null> {
+    const data = await this.read(id)
+
+    if (!data) return null
+
+    return this.create({
+      id,
+      exec: newFunction
+    })
+  }
 
   async remove () {}
 
