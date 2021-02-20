@@ -36,7 +36,10 @@ export class RTDB implements IStoreProtocol {
     })
   }
 
-  async remove () {}
+  async remove (id: number): Promise<void> {
+    const reference = this.idReference(id)
+    await reference.set(null)
+  }
 
   onCreate () {}
 
