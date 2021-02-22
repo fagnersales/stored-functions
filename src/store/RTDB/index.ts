@@ -1,5 +1,5 @@
 import { IStoreProtocol } from '../IStoreProtocol'
-import { IFunctionProtocol, IUndefinedFunction } from '../../InterfacesProtocol'
+import { IFunctionProtocol, IFunctionsProtocol, IUndefinedFunction } from '../../InterfacesProtocol'
 import { database } from '../../firebase'
 
 export class RTDB implements IStoreProtocol {
@@ -22,6 +22,20 @@ export class RTDB implements IStoreProtocol {
 
   get isTestEnvironment () {
     return this.testEnvironment
+  }
+
+  async readAll (): Promise<IFunctionsProtocol> {
+    const snapshot = await database.ref(this.BASE_REF).get()
+
+    if (!snapshot.exists()) return []
+
+    const value = snapshot.toJSON() as Record<string, {id: number, exec: IUndefinedFunction}>
+
+    return Object.keys(value).map(key => ({
+      id: Number(key),
+      // eslint-disable-next-line no-new-func
+      exec: new Function(`return ${value[key].exec}`)()
+    }))
   }
 
   async save<K extends Function = IUndefinedFunction> (data: IFunctionProtocol<K>): Promise<IFunctionProtocol<K>> {
