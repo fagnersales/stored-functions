@@ -5,6 +5,8 @@ export type IFunctionProtocol<K extends Function = IUndefinedFunction> = {
   exec: K
 }
 
+export type IFunctionsProtocol = { id: number, exec: IUndefinedFunction }[]
+
 /*
  Example for FunctionProtocol:
 
