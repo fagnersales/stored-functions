@@ -59,7 +59,17 @@ export class RTDB implements IStoreProtocol {
     await reference.set(null)
   }
 
-  onSave () {}
+  onSave <K extends Function = IUndefinedFunction> (callback: (data: IFunctionProtocol<K>) => any): void {
+    database.ref(this.BASE_REF).on('child_added', snapshot => {
+      const data = {
+        id: Number(snapshot.key),
+        // eslint-disable-next-line no-new-func
+        exec: new Function(`return ${snapshot.val().exec}`)()
+      }
+
+      callback(data)
+    })
+  }
 
   onRead () {}
 
