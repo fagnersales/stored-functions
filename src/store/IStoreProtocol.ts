@@ -7,6 +7,6 @@ export interface IStoreProtocol {
   remove(id: number): Promise<void>
   onSave(callback: (data: IFunctionProtocol) => any): void
   onRead(): void
-  onUpdate(): void
+  onUpdate(callback: (data: IFunctionProtocol) => any): void
   onRemove(): void
 }
