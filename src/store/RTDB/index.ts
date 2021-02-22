@@ -5,8 +5,10 @@ import { database } from '../../firebase'
 export class RTDB implements IStoreProtocol {
   private idReference = (id: number | string) => database.ref(`${this.BASE_REF}/${id}`)
   private BASE_REF: string
+  private testEnvironment: boolean
 
   private constructor (testEnvironment: boolean) {
+    this.testEnvironment = testEnvironment
     this.BASE_REF = testEnvironment ? '/__tests__/commands' : '/commands'
   }
 
@@ -16,6 +18,10 @@ export class RTDB implements IStoreProtocol {
 
   static createTestEnvironment () {
     return new RTDB(true)
+  }
+
+  get isTestEnvironment () {
+    return this.testEnvironment
   }
 
   async save<K extends Function = IUndefinedFunction> (data: IFunctionProtocol<K>): Promise<IFunctionProtocol<K>> {
