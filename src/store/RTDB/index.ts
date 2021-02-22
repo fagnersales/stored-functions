@@ -3,10 +3,10 @@ import { IFunctionProtocol, IUndefinedFunction } from '../../InterfacesProtocol'
 import { database } from '../../firebase'
 
 export class RTDB implements IStoreProtocol {
-  private BASE_REF = '/commands'
   private idReference = (id: number | string) => database.ref(`${this.BASE_REF}/${id}`)
+  private BASE_REF = '/commands'
 
-  async create<K extends Function = IUndefinedFunction> (data: IFunctionProtocol<K>): Promise<IFunctionProtocol<K>> {
+  async save<K extends Function = IUndefinedFunction> (data: IFunctionProtocol<K>): Promise<IFunctionProtocol<K>> {
     const reference = this.idReference(data.id)
     await reference.set({ exec: String(data.exec) })
     return data
@@ -30,7 +30,7 @@ export class RTDB implements IStoreProtocol {
 
     if (!data) return null
 
-    return this.create({
+    return this.save({
       id,
       exec: newFunction
     })
@@ -41,7 +41,7 @@ export class RTDB implements IStoreProtocol {
     await reference.set(null)
   }
 
-  onCreate () {}
+  onSave () {}
 
   onRead () {}
 
