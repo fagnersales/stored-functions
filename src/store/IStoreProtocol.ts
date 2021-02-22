@@ -5,7 +5,7 @@ export interface IStoreProtocol {
   read<K extends Function = IUndefinedFunction>(id: number): Promise<IFunctionProtocol<K> | null>
   update<K extends Function = IUndefinedFunction>(id: number, newFunction: K): Promise<IFunctionProtocol<K> | null>
   remove(id: number): Promise<void>
-  onSave(): void
+  onSave<K extends Function = IUndefinedFunction>(callback: (data: IFunctionProtocol<K>) => any): void
   onRead(): void
   onUpdate(): void
   onRemove(): void
