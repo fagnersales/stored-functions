@@ -8,5 +8,5 @@ export interface IStoreProtocol {
   onSave(callback: (data: IFunctionProtocol) => any): void
   onRead(): void
   onUpdate(callback: (data: IFunctionProtocol) => any): void
-  onRemove(): void
+  onRemove(callback: (data: IFunctionProtocol) => any): void
 }
