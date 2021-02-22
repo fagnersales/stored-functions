@@ -73,7 +73,17 @@ export class RTDB implements IStoreProtocol {
 
   onRead () {}
 
-  onUpdate () {}
+  onUpdate (callback: (data: IFunctionProtocol) => any): void {
+    database.ref(this.BASE_REF).on('child_changed', snapshot => {
+      const data = {
+        id: Number(snapshot.key),
+        // eslint-disable-next-line no-new-func
+        exec: new Function(`return ${snapshot.val().exec}`)()
+      }
+
+      callback(data)
+    })
+  }
 
   onRemove () {}
 }
